@@ -1,0 +1,3 @@
+bazel-*
+# there is discussion around ignoring the lockfile: safety over merge conflicts.  Weigh the arguments and decide.
+MODULE.bazel.lock

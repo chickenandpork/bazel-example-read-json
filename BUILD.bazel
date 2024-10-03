@@ -1,0 +1,38 @@
+load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template_rule")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@local_renovate_regex//:json.bzl", "version_json")
+
+# A template created at build for expandion: it's defined here to allow the entire logic to show on one page
+write_file(
+    name = "simple_template",
+    out = "template.sh",
+    content = [
+        """echo "The release of THE_PROJECT is THE_RELEASE" """,
+        "",  # padded to end the file in a newline to make "cat" cleaner at shell prompt
+    ],
+)
+
+# "Hydrate" the template: expand with the given parameters
+# to check:   bazel query --output=build //:hydrate
+expand_template_rule(
+    name = "hydrate",
+    out = "hydrated.sh",
+    is_executable = True,
+    substitutions = {
+        "THE_PROJECT": version_json["terraform"]["renovate_depname"],
+        "THE_RELEASE": version_json["terraform"]["version"],
+    },
+    template = ":simple_template",
+)
+
+# This test merely allows the expandion to be tested in any wildcard build, and avoids a
+#   "bazel build && bazel test"
+# Avoiding unnecessary bazel executions means we avoid re-loading the cached analysis (or
+# re-analyzing if not cached) and -- worst-case -- re-heating a new bazel backend.
+sh_test(
+    name = "test_hydration",
+    size = "small",
+    srcs = [":hydrate"],
+    args = ["$(location :hydrate)"],
+    data = [":hydrate"],
+)

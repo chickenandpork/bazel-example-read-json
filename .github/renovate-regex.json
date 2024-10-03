@@ -1,0 +1,9 @@
+{
+  "terraform": {
+    "renovate_datasource": "github-releases",
+    "renovate_depname": "hashicorp/terraform",
+    "renovate_versioning": "semver",
+    "sha256": "d89c6425b9f4b6c178e47b55d22b2e88095900bb",
+    "version": "v1.4.5"
+  }
+}

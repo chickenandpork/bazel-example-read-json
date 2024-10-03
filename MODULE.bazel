@@ -1,0 +1,14 @@
+module(
+    name = "bazel-example-read-json",
+    version = "1.0",
+)
+
+bazel_dep(name = "aspect_bazel_lib", version = "2.9.1", dev_dependency = True)
+
+load_json_file = use_repo_rule("//json:load_json_file.bzl", "load_json_file")
+
+load_json_file(
+    name = "local_renovate_regex",
+    src = "//:.github/renovate-regex.json",
+    variable_name = "version_json",
+)
