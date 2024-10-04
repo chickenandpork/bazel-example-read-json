@@ -34,5 +34,4 @@ sh_test(
     size = "small",
     srcs = [":hydrate"],
     args = ["$(location :hydrate)"],
-    data = [":hydrate"],
 )
