@@ -22,7 +22,7 @@ jobs:
         id: week
         run: echo "::set-output name=iso::$(date +'bazel-%YW%U')"
       -
-        uses: bazel-contrib/setup-bazel@0.12.0
+        uses: bazel-contrib/setup-bazel@0.12.1
         with:
           # Cache bazel downloads via bazelisk
           bazelisk-cache: true
